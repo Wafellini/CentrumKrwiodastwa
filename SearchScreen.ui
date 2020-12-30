@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SearchScreen</class>
+ <widget class="QMainWindow" name="SearchScreen">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>549</width>
+    <height>418</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label_Relacja">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Relacja:</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="wybor_Relacji">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>151</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Placowki</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Laboratoria</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Bilansy_Krwi</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTableWidget" name="Tablica_Wyszukiwan">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>171</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string>typ_krwi</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>ilosc</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>id_plac</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Podaj cechy:</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="label_Wyszukiwanie">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>130</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wyszukiwanie:</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="Tablica_Wynikow">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>40</y>
+      <width>331</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string>wynik1</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wynik2</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wynik3</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wynik4</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wynik5</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wynik6</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wynik7</string>
+     </property>
+     <property name="font">
+      <font>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>typ_krwi</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>ilosc</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>id_plac</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="label_Wynik">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>20</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wynik wyszukiwania:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>549</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

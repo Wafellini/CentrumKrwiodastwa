@@ -12,21 +12,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from main import Baza
 
-def connect(host, user, password, database):
-    mydb = mysql.connector.connect(host = host, user = user, password = password, database = database)
-    print(mydb)
-
-    return mydb
-
-def insertPlacowki(database,id_plac, adres):
-    my_cursor = database.cursor()
-    tamp = 'INSERT INTO placowki (id_plac, adres) VALUES (%s, %s)'
-    values = (id_plac,adres)
-    my_cursor.execute(tamp,values)
-    database.commit()
-
-def guzik():
-    print('guzik')
 
 class Ui_TechWindow(object):
     def setupUi(self, TechWindow):
@@ -135,7 +120,7 @@ class Ui_TechWindow(object):
             item4 = item4.text()
             print(item1, item2, item3, item4)
             if item1 == "Dodaj dane" and item2 == "Placowki":
-                insertPlacowki(dtbase, int(item3), item4)
+                Baza.insertPlacowki(dtbase, int(item3), item4)
         except:
             print('cuśik poszedu nie tak')
         # return item1, item2, item3
@@ -144,8 +129,7 @@ if __name__ == "__main__":
     name = 'testdb'
 
 
-    # createDatabse(name)
-    dtbase = connect("localhost", "root", "debilkox",name)
+    dtbase = Baza.connect("localhost", "root", "debilkox",name)
 
 
     import sys

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TechWindow</class>
+ <widget class="QMainWindow" name="TechWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>490</width>
+    <height>432</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QListWidget" name="wybor_Akcji">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Dodaj dane</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Usuń dane</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Modyfikuj dane</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_Akcja">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Acja:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Relacja">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>40</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Relacja:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Dane">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>170</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dane:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Guzik_Zatwierdzajacy">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>350</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zatwierdź</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="wybor_Relacji">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>70</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Placowki</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Laboratoria</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTableWidget" name="Tablica_Danych">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>291</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>imie</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>nazwisko</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>wzrost</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Dane</string>
+     </property>
+    </column>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>490</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
