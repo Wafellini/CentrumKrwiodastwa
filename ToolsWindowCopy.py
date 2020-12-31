@@ -10,10 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
-from main import Baza
+from Baza import Baza
 
 
 class Ui_TechWindow(object):
+    def __init__(self, base):
+        self.dtbase = base
+
+
     def setupUi(self, TechWindow):
         TechWindow.setObjectName("TechWindow")
         TechWindow.resize(490, 432)
@@ -120,24 +124,8 @@ class Ui_TechWindow(object):
             item4 = item4.text()
             print(item1, item2, item3, item4)
             if item1 == "Dodaj dane" and item2 == "Placowki":
-                Baza.insertPlacowki(dtbase, int(item3), item4)
+                Baza.insertPlacowki(self.dtbase, int(item3), item4)
         except:
             print('cuśik poszedu nie tak')
         # return item1, item2, item3
 
-if __name__ == "__main__":
-    name = 'testdb'
-
-
-    dtbase = Baza.connect("localhost", "root", "debilkox",name)
-
-
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    TechWindow = QtWidgets.QMainWindow()
-    ui = Ui_TechWindow()
-    ui.setupUi(TechWindow)
-    TechWindow.show()
-
-
-    sys.exit(app.exec_())

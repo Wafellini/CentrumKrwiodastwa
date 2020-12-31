@@ -52,11 +52,4 @@ class Ui_LoginScreen(object):
         self.Guzik_Logujacy.setText(_translate("LoginScreen", "Login"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    LoginScreen = QtWidgets.QMainWindow()
-    ui = Ui_LoginScreen()
-    ui.setupUi(LoginScreen)
-    LoginScreen.show()
-    sys.exit(app.exec_())
+

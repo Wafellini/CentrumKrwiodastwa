@@ -133,11 +133,4 @@ class Ui_SearchScreen(object):
         self.label_Wynik.setText(_translate("SearchScreen", "Wynik wyszukiwania:"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    LoginScreen = QtWidgets.QMainWindow()
-    ui = Ui_SearchScreen()
-    ui.setupUi(LoginScreen)
-    LoginScreen.show()
-    sys.exit(app.exec_())
+
