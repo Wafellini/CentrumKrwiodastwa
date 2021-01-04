@@ -17,7 +17,6 @@ class Ui_TechWindow(object):
     def __init__(self, base):
         self.dtbase = base
 
-
     def setupUi(self, TechWindow):
         TechWindow.setObjectName("TechWindow")
         TechWindow.resize(490, 432)
@@ -118,9 +117,9 @@ class Ui_TechWindow(object):
             item1 = item1.text()
             item2 = self.wybor_Relacji.currentItem()
             item2 = item2.text()
-            item3 = self.Tablica_Danych.item(0,0)
+            item3 = self.Tablica_Danych.item(0, 0)
             item3 = item3.text()
-            item4 = self.Tablica_Danych.item(1,0)
+            item4 = self.Tablica_Danych.item(1, 0)
             item4 = item4.text()
             print(item1, item2, item3, item4)
             if item1 == "Dodaj dane" and item2 == "Placowki":
@@ -128,4 +127,3 @@ class Ui_TechWindow(object):
         except:
             print('cuśik poszedu nie tak')
         # return item1, item2, item3
-

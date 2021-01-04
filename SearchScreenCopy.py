@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_SearchScreen(object):
+    def __init__(self, base):
+        self.dtbase = base
+
     def setupUi(self, SearchScreen):
         SearchScreen.setObjectName("SearchScreen")
         SearchScreen.resize(549, 418)

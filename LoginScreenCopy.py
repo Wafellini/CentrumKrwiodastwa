@@ -9,9 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import mysql.connector
+from ToolsWindowCopy import Ui_TechWindow
+from SearchScreenCopy import Ui_SearchScreen
 
 class Ui_LoginScreen(object):
+    def __init__(self, base):
+        self.dtbase = base
+
     def setupUi(self, LoginScreen):
         LoginScreen.setObjectName("LoginScreen")
         LoginScreen.resize(403, 165)
@@ -44,6 +49,7 @@ class Ui_LoginScreen(object):
         self.retranslateUi(LoginScreen)
         QtCore.QMetaObject.connectSlotsByName(LoginScreen)
 
+
     def retranslateUi(self, LoginScreen):
         _translate = QtCore.QCoreApplication.translate
         LoginScreen.setWindowTitle(_translate("LoginScreen", "MainWindow"))
@@ -51,5 +57,30 @@ class Ui_LoginScreen(object):
         self.label_Haslo.setText(_translate("LoginScreen", "Hasło:"))
         self.Guzik_Logujacy.setText(_translate("LoginScreen", "Login"))
 
+        self.Guzik_Logujacy.clicked.connect(self.getChoice)
+
+    def getChoice(self):
+        try:
+            item1 = self.Text_Haslo.toPlainText()
+            item2 = self.Text_Identyfikator.toPlainText()
+            print(item1, item2)
+            if item1 == "admin" and item2 == "admin":
 
 
+                self.TechWindow1 = QtWidgets.QMainWindow()
+                self.TechWindow3 = QtWidgets.QMainWindow()
+
+                self.ui1 = Ui_TechWindow(self.dtbase)
+                self.ui3 = Ui_SearchScreen(self.dtbase)
+
+                self.ui1.setupUi(self.TechWindow1)
+                self.ui3.setupUi(self.TechWindow3)
+
+
+                self.TechWindow1.show()
+                self.TechWindow3.show()
+            else:
+                print('zly login, sprobuj admin admin')
+        except:
+            print('cuśik poszedu nie tak')
+        # return item1, item2, item3
