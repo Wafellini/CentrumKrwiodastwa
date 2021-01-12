@@ -61,10 +61,10 @@ class Ui_LoginScreen(object):
 
     def getChoice(self):
         try:
-            item1 = self.Text_Haslo.toPlainText()
-            item2 = self.Text_Identyfikator.toPlainText()
-            print(item1, item2)
-            if item1 == "admin" and item2 == "admin":
+            passwd = self.Text_Haslo.toPlainText()
+            idd = self.Text_Identyfikator.toPlainText()
+            print(passwd, idd)
+            if passwd == "admin" and idd == "admin":
 
 
                 self.TechWindow1 = QtWidgets.QMainWindow()

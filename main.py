@@ -1,6 +1,4 @@
 from Baza import Baza
-from ToolsWindowCopy import Ui_TechWindow
-from SearchScreenCopy import Ui_SearchScreen
 from LoginScreenCopy import Ui_LoginScreen
 
 from PyQt5 import QtCore, QtGui, QtWidgets
