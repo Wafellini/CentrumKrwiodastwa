@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QDialog, QApplication
 import mysql.connector
 from Baza import Baza
 
@@ -110,6 +111,20 @@ class Ui_TechWindow(object):
         item.setText(_translate("TechWindow", "Dane"))
 
         self.Guzik_Zatwierdzajacy.clicked.connect(self.getChoice)
+    def updateDane(self,table = 'placowki'):
+        columns = Baza.getColumnNamesFromTable(self.dtbase,table)
+        numC = len(columns)
+
+        _translate = QtCore.QCoreApplication.translate
+
+
+        self.Tablica_Danych.setColumnCount(1)
+        self.Tablica_Danych.setRowCount(numC)
+        for i in range(numC):
+            # self.Tablica_Danych.setItem(0, i, QtWidgets.QTableWidgetItem(columns[i]))
+            item = self.Tablica_Danych.verticalHeaderItem(i)
+            item.setText(_translate("TechWindow", columns[i]))
+
 
     def getChoice(self):
         try:
@@ -124,6 +139,14 @@ class Ui_TechWindow(object):
             print(item1, item2, item3, item4)
             if item1 == "Dodaj dane" and item2 == "Placowki":
                 Baza.insertPlacowki(self.dtbase, int(item3), item4)
+            elif item1 == "Usuń dane" and item2 == "Placowki":
+                Baza.deletePlacowki(self.dtbase, int(item3), item4)
         except:
             print('cuśik poszedu nie tak')
         # return item1, item2, item3
+        # item3 = self.Tablica_Danych.item(0, 0)
+        #a = item3.text()
+        #print(a + 'xxd')
+        print(self.Tablica_Danych.item(0, 0) == None)
+        self.updateDane()
+        #print(a == '')
