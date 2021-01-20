@@ -49,3 +49,16 @@ class Baza:
         # print(mydb)
 
         return mydb
+
+    @staticmethod
+    def getTableNamesFromDb(database):
+        mydb = mysql.connector.connect(host='localhost', user='root', password='debilkox')
+
+        my_cursor = mydb.cursor()
+        # my_cursor.execute('select table_name from {}'.format(database))
+        my_cursor.execute('use {}'.format(database))
+        my_cursor.execute('show tables')
+
+        xd = [i[0] for i in my_cursor]
+        return(xd)
+

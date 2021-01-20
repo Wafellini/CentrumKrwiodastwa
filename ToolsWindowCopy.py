@@ -45,26 +45,29 @@ class Ui_TechWindow(object):
         self.Guzik_Zatwierdzajacy.setGeometry(QtCore.QRect(320, 350, 75, 23))
         self.Guzik_Zatwierdzajacy.setObjectName("Guzik_Zatwierdzajacy")
         self.wybor_Relacji = QtWidgets.QListWidget(self.centralwidget)
-        self.wybor_Relacji.setGeometry(QtCore.QRect(160, 70, 121, 61))
+        self.wybor_Relacji.setGeometry(QtCore.QRect(160, 70, 121, 120))
         self.wybor_Relacji.setObjectName("wybor_Relacji")
-        item = QtWidgets.QListWidgetItem()
-        self.wybor_Relacji.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.wybor_Relacji.addItem(item)
+
+
+        # Ustawianie ilości elementów listy relacji do wyboru
+        amount = len(Baza.getTableNamesFromDb('testdb'))
+        for i in range(amount):
+            item = QtWidgets.QListWidgetItem()
+            self.wybor_Relacji.addItem(item)
+
         self.Tablica_Danych = QtWidgets.QTableWidget(self.centralwidget)
         self.Tablica_Danych.setGeometry(QtCore.QRect(10, 190, 291, 192))
         self.Tablica_Danych.setObjectName("Tablica_Danych")
         self.Tablica_Danych.setColumnCount(1)
-        self.Tablica_Danych.setRowCount(4)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Danych.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Danych.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Danych.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Danych.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
+
+
+        # Ustawienie odpowiednio dużej ilości wierszy w tabeli do wpisywania danych
+        self.Tablica_Danych.setRowCount(20)
+        for i in range(20):
+            item = QtWidgets.QTableWidgetItem()
+            self.Tablica_Danych.setVerticalHeaderItem(i, item)
+
+
         self.Tablica_Danych.setHorizontalHeaderItem(0, item)
         TechWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(TechWindow)
@@ -96,36 +99,48 @@ class Ui_TechWindow(object):
         self.Guzik_Zatwierdzajacy.setText(_translate("TechWindow", "Zatwierdź"))
         __sortingEnabled = self.wybor_Relacji.isSortingEnabled()
         self.wybor_Relacji.setSortingEnabled(False)
-        item = self.wybor_Relacji.item(0)
-        item.setText(_translate("TechWindow", "Placowki"))
-        item = self.wybor_Relacji.item(1)
-        item.setText(_translate("TechWindow", "Laboratoria"))
+
+
+        # Ustawienie listy relacji do wyboru
+        tables = Baza.getTableNamesFromDb('testdb')
+        it = 0
+        print(tables)
+        for i in tables:
+            print(i)
+            item = self.wybor_Relacji.item(it)
+            item.setText(_translate("TechWindow", tables[it]))
+            it += 1
+
+
         self.wybor_Relacji.setSortingEnabled(__sortingEnabled)
-        item = self.Tablica_Danych.verticalHeaderItem(0)
-        item.setText(_translate("TechWindow", "imie"))
-        item = self.Tablica_Danych.verticalHeaderItem(1)
-        item.setText(_translate("TechWindow", "nazwisko"))
-        item = self.Tablica_Danych.verticalHeaderItem(2)
-        item.setText(_translate("TechWindow", "wzrost"))
         item = self.Tablica_Danych.horizontalHeaderItem(0)
         item.setText(_translate("TechWindow", "Dane"))
 
         self.Guzik_Zatwierdzajacy.clicked.connect(self.getChoice)
+        self.wybor_Relacji.clicked.connect(self.UpdateXXX)
 
-    #zmiana fomry tabeli w zależności od wybranych opcji
+
+    # Zmiana formy tabeli do wpisywania danych w zależności od wybranych opcji
+    def UpdateXXX(self):
+        item1 = self.wybor_Relacji.currentItem()
+        item1 = item1.text()
+        print(item1)
+        self.updateDane(item1)
+
     def updateDane(self,table = 'placowki'):
         columns = Baza.getColumnNamesFromTable(self.dtbase,table)
         numC = len(columns)
 
         _translate = QtCore.QCoreApplication.translate
 
-
-        self.Tablica_Danych.setColumnCount(1)
-        self.Tablica_Danych.setRowCount(numC)
-        for i in range(numC):
-            # self.Tablica_Danych.setItem(0, i, QtWidgets.QTableWidgetItem(columns[i]))
-            item = self.Tablica_Danych.verticalHeaderItem(i)
-            item.setText(_translate("TechWindow", columns[i]))
+        for i in range(20):
+            if (numC - i) > 0:
+                # self.Tablica_Danych.setItem(0, i, QtWidgets.QTableWidgetItem(columns[i]))
+                item = self.Tablica_Danych.verticalHeaderItem(i)
+                item.setText(_translate("TechWindow", columns[i]))
+            else:
+                item = self.Tablica_Danych.verticalHeaderItem(i)
+                item.setText(_translate("TechWindow", ""))
 
 
     #wybór dostępnych opcji
@@ -140,16 +155,9 @@ class Ui_TechWindow(object):
             item4 = self.Tablica_Danych.item(1, 0)
             item4 = item4.text()
             print(item1, item2, item3, item4)
-            if item1 == "Dodaj dane" and item2 == "Placowki":
+            if item1 == "Dodaj dane" and item2 == "placowki":
                 Baza.insertPlacowki(self.dtbase, int(item3), item4)
-            elif item1 == "Usuń dane" and item2 == "Placowki":
+            elif item1 == "Usuń dane" and item2 == "placowki":
                 Baza.deletePlacowki(self.dtbase, int(item3), item4)
         except:
             print('cuśik poszedu nie tak')
-        # return item1, item2, item3
-        # item3 = self.Tablica_Danych.item(0, 0)
-        #a = item3.text()
-        #print(a + 'xxd')
-        print(self.Tablica_Danych.item(0, 0) == None)
-        self.updateDane()
-        #print(a == '')
