@@ -111,6 +111,8 @@ class Ui_TechWindow(object):
         item.setText(_translate("TechWindow", "Dane"))
 
         self.Guzik_Zatwierdzajacy.clicked.connect(self.getChoice)
+
+    #zmiana fomry tabeli w zależności od wybranych opcji
     def updateDane(self,table = 'placowki'):
         columns = Baza.getColumnNamesFromTable(self.dtbase,table)
         numC = len(columns)
@@ -126,6 +128,7 @@ class Ui_TechWindow(object):
             item.setText(_translate("TechWindow", columns[i]))
 
 
+    #wybór dostępnych opcji
     def getChoice(self):
         try:
             item1 = self.wybor_Akcji.currentItem()
