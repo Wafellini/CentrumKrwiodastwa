@@ -4,6 +4,49 @@ import mysql.connector
 class Baza:
 
     @staticmethod
+    def insert(database, table, args):
+        names = Baza.getColumnNamesFromTable(database, table)
+        my_cursor = database.cursor()
+        names_format = ""
+        args_format = ""
+        j = 0
+        for i in range(len(args)):
+            if args[j] is None:
+                args.pop(j)
+                names.pop(j)
+            else:
+                names_format += str(names[j]) + ", "
+                args_format += '"' + str(args[j]) + '"' + ', '
+                j+=1
+        tamp = 'INSERT INTO {} ({}) VALUES ({})'.format(table, names_format[:-2], args_format[:-2])
+        print(tamp)
+        my_cursor.execute(tamp)
+        database.commit()
+
+    @staticmethod
+    def delete(database, table, args):
+        names = Baza.getColumnNamesFromTable(database, table)
+        my_cursor = database.cursor()
+        names_format = ""
+        args_format = ""
+        final_format = ""
+        j = 0
+        for i in range(len(args)):
+            if args[j] is None:
+                args.pop(j)
+                names.pop(j)
+            else:
+                names_format += str(names[j]) + ", "
+                args_format += '"' + str(args[j]) + '"' + ', '
+                final_format += str(names[j]) + ' = "' + str(args[j]) +  '" and '
+                j += 1
+
+        tamp = 'DELETE FROM {} WHERE {}'.format(table, final_format[:-5])
+        print(tamp)
+        my_cursor.execute(tamp)
+        database.commit()
+
+    @staticmethod
     def insertPlacowki(database, id_plac, adres):
         my_cursor = database.cursor()
         tamp = 'INSERT INTO placowki (id_plac, adres) VALUES (%s, %s)'

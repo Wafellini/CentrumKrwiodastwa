@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication
 import mysql.connector
 from Baza import Baza
-
+import traceback
 
 class Ui_TechWindow(object):
     def __init__(self, base):
@@ -69,6 +69,7 @@ class Ui_TechWindow(object):
 
 
         self.Tablica_Danych.setHorizontalHeaderItem(0, item)
+        # self.Tablica_Danych.setHorizontalHeaderItem(1, item)
         TechWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(TechWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 490, 21))
@@ -116,32 +117,53 @@ class Ui_TechWindow(object):
         item = self.Tablica_Danych.horizontalHeaderItem(0)
         item.setText(_translate("TechWindow", "Dane"))
 
+        # Tu aktywowane są reakcje na kliknięcia
         self.Guzik_Zatwierdzajacy.clicked.connect(self.getChoice)
         self.wybor_Relacji.clicked.connect(self.UpdateXXX)
+        self.wybor_Akcji.clicked.connect(self.UpdateAkcje)
 
+    def UpdateAkcje(self):
+        item1 = self.wybor_Akcji.currentItem()
+        item1 = item1.text()
 
-    # Zmiana formy tabeli do wpisywania danych w zależności od wybranych opcji
+        _translate = QtCore.QCoreApplication.translate
+
+        print('przed testem "Modyfikuj dane"')
+
+        if item1 == "Modyfikuj dane":
+            if self.Tablica_Danych.columnCount() < 2:
+                self.Tablica_Danych.insertColumn(1)
+                item = self.Tablica_Danych.horizontalHeaderItem(1)
+                # item.setText("Nowe Dane")
+                # item.setText(_translate("TechWindow", "Nowe Dane"))
+        else:
+            self.Tablica_Danych.removeColumn(1)
+
+        print('po teście "Modyfikuj dane"')
+
+    # Wypełnianie tabeli do wpisywania danych nazwami kolumn w zależności od wybranej relacji
     def UpdateXXX(self):
         item1 = self.wybor_Relacji.currentItem()
         item1 = item1.text()
         print(item1)
         self.updateDane(item1)
 
-    def updateDane(self,table = 'placowki'):
+    def updateDane(self,table):
         columns = Baza.getColumnNamesFromTable(self.dtbase,table)
         numC = len(columns)
 
         _translate = QtCore.QCoreApplication.translate
 
+        # Wypełnianie tabeli... implementacja
         for i in range(20):
             if (numC - i) > 0:
-                # self.Tablica_Danych.setItem(0, i, QtWidgets.QTableWidgetItem(columns[i]))
                 item = self.Tablica_Danych.verticalHeaderItem(i)
                 item.setText(_translate("TechWindow", columns[i]))
             else:
                 item = self.Tablica_Danych.verticalHeaderItem(i)
                 item.setText(_translate("TechWindow", ""))
-
+        item = self.Tablica_Danych.horizontalHeaderItem(0)
+        item.setText(_translate("TechWindow", "Dane"))
 
     #wybór dostępnych opcji
     def getChoice(self):
@@ -150,14 +172,32 @@ class Ui_TechWindow(object):
             item1 = item1.text()
             item2 = self.wybor_Relacji.currentItem()
             item2 = item2.text()
-            item3 = self.Tablica_Danych.item(0, 0)
-            item3 = item3.text()
-            item4 = self.Tablica_Danych.item(1, 0)
-            item4 = item4.text()
-            print(item1, item2, item3, item4)
-            if item1 == "Dodaj dane" and item2 == "placowki":
-                Baza.insertPlacowki(self.dtbase, int(item3), item4)
-            elif item1 == "Usuń dane" and item2 == "placowki":
-                Baza.deletePlacowki(self.dtbase, int(item3), item4)
-        except:
+
+
+
+            # items - wartości wpiasne prze użytkownika
+            items = []
+            it = len(Baza.getColumnNamesFromTable(self.dtbase, item2))
+            for i in range(it):
+                if (self.Tablica_Danych.item(i, 0) is not None):
+                    if self.Tablica_Danych.item(i, 0).text() == '':
+                        items.append(None)
+                    else:
+                        items.append(self.Tablica_Danych.item(i, 0).text())
+                else:
+                    items.append(None)
+            print('items  :',items)
+
+
+            if item1 == "Dodaj dane":
+                Baza.insert(self.dtbase, item2, items)
+            print('after insert checkpoint')
+
+            if item1 == "Usuń dane":
+                Baza.delete(self.dtbase, item2, items)
+            print('after delete checkpoint')
+
+
+        except Exception:
+            traceback.print_exc()
             print('cuśik poszedu nie tak')
