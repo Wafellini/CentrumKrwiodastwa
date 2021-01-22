@@ -171,9 +171,6 @@ class Ui_TechWindow(object):
             else:
                 item = self.Tablica_Danych.verticalHeaderItem(i)
                 item.setText(_translate("TechWindow", ""))
-        item1 = self.Tablica_Danych.horizontalHeaderItem(0)
-        # item.setText(_translate("TechWindow", "Dane"))
-        item1.setText("Nowe Dane")
 
     #wybór dostępnych opcji
     def getChoice(self):
@@ -187,8 +184,18 @@ class Ui_TechWindow(object):
 
             # items - wartości wpiasne prze użytkownika
             items = []
+            items2 = []
             it = len(Baza.getColumnNamesFromTable(self.dtbase, item2))
             for i in range(it):
+                if (self.Tablica_Danych.item(i, 1) is not None):
+                    if self.Tablica_Danych.item(i, 1).text() == '':
+                        items2.append(None)
+                    else:
+                        items2.append(self.Tablica_Danych.item(i, 1).text())
+                else:
+                    items2.append(None)
+
+
                 if (self.Tablica_Danych.item(i, 0) is not None):
                     if self.Tablica_Danych.item(i, 0).text() == '':
                         items.append(None)
@@ -197,6 +204,7 @@ class Ui_TechWindow(object):
                 else:
                     items.append(None)
             print('items  :',items)
+            print('items2  :', items2)
 
 
             if item1 == "Dodaj dane":
@@ -206,6 +214,10 @@ class Ui_TechWindow(object):
             if item1 == "Usuń dane":
                 Baza.delete(self.dtbase, item2, items)
             print('after delete checkpoint')
+
+            if item1 == "Modyfikuj dane":
+                Baza.update(self.dtbase, item2, items, items2)
+            print('after update checkpoint')
 
 
         except Exception:

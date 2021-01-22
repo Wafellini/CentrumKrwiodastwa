@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from Baza import Baza
 
 class Ui_SearchScreen(object):
     def __init__(self, base):
@@ -36,14 +36,21 @@ class Ui_SearchScreen(object):
         self.Tablica_Wyszukiwan.setGeometry(QtCore.QRect(10, 150, 171, 221))
         self.Tablica_Wyszukiwan.setObjectName("Tablica_Wyszukiwan")
         self.Tablica_Wyszukiwan.setColumnCount(1)
-        self.Tablica_Wyszukiwan.setRowCount(3)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wyszukiwan.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wyszukiwan.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wyszukiwan.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wyszukiwan.setRowCount(3)
+
+        self.Tablica_Wyszukiwan.setRowCount(20)
+        for i in range(20):
+            item = QtWidgets.QTableWidgetItem()
+            self.Tablica_Wyszukiwan.setVerticalHeaderItem(i, item)
+
+
+        # item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wyszukiwan.setVerticalHeaderItem(0, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wyszukiwan.setVerticalHeaderItem(1, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wyszukiwan.setVerticalHeaderItem(2, item)
+        # item = QtWidgets.QTableWidgetItem()
         self.Tablica_Wyszukiwan.setHorizontalHeaderItem(0, item)
         self.label_Wyszukiwanie = QtWidgets.QLabel(self.centralwidget)
         self.label_Wyszukiwanie.setGeometry(QtCore.QRect(30, 130, 91, 16))
@@ -97,12 +104,28 @@ class Ui_SearchScreen(object):
         self.label_Relacja.setText(_translate("SearchScreen", "Relacja:"))
         __sortingEnabled = self.wybor_Relacji.isSortingEnabled()
         self.wybor_Relacji.setSortingEnabled(False)
-        item = self.wybor_Relacji.item(0)
-        item.setText(_translate("SearchScreen", "Placowki"))
-        item = self.wybor_Relacji.item(1)
-        item.setText(_translate("SearchScreen", "Laboratoria"))
-        item = self.wybor_Relacji.item(2)
-        item.setText(_translate("SearchScreen", "Bilansy_Krwi"))
+        # item = self.wybor_Relacji.item(0)
+        # item.setText(_translate("SearchScreen", "Placowki"))
+        # item = self.wybor_Relacji.item(1)
+        # item.setText(_translate("SearchScreen", "Laboratoria"))
+        # item = self.wybor_Relacji.item(2)
+        # item.setText(_translate("SearchScreen", "Bilansy_Krwi"))
+
+        amount = len(Baza.getTableNamesFromDb('testdb'))
+        for i in range(amount):
+            item = QtWidgets.QListWidgetItem()
+            self.wybor_Relacji.addItem(item)
+
+        # Ustawienie listy relacji do wyboru
+        tables = Baza.getTableNamesFromDb('testdb')
+        it = 0
+        print(tables)
+        for i in tables:
+            print(i)
+            item = self.wybor_Relacji.item(it)
+            item.setText(_translate("TechWindow", tables[it]))
+            it += 1
+
         self.wybor_Relacji.setSortingEnabled(__sortingEnabled)
         item = self.Tablica_Wyszukiwan.verticalHeaderItem(0)
         item.setText(_translate("SearchScreen", "typ_krwi"))
@@ -111,7 +134,7 @@ class Ui_SearchScreen(object):
         item = self.Tablica_Wyszukiwan.verticalHeaderItem(2)
         item.setText(_translate("SearchScreen", "id_plac"))
         item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
-        item.setText(_translate("SearchScreen", "Podaj cechy:"))
+        item.setText(_translate("SearchScreen", "Podaj wzór danych"))
         self.label_Wyszukiwanie.setText(_translate("SearchScreen", "Wyszukiwanie:"))
         item = self.Tablica_Wynikow.verticalHeaderItem(0)
         item.setText(_translate("SearchScreen", "wynik1"))
@@ -135,5 +158,28 @@ class Ui_SearchScreen(object):
         item.setText(_translate("SearchScreen", "id_plac"))
         self.label_Wynik.setText(_translate("SearchScreen", "Wynik wyszukiwania:"))
 
+        self.wybor_Relacji.clicked.connect(self.UpdateRelacje)
+
+    def UpdateRelacje(self):
+        item1 = self.wybor_Relacji.currentItem()
+        item1 = item1.text()
+
+        columns = Baza.getColumnNamesFromTable(self.dtbase, item1)
+        numC = len(columns)
+
+        _translate = QtCore.QCoreApplication.translate
+
+        print('przed testem "Modyfikuj dane"')
 
 
+        for i in range(20):
+            # item = self.Tablica_Wyszukiwan.horizontalHeaderItem(i)
+            # item.setText(_translate("TechWindow", "Podaj wzór danych"))
+            if (numC - i) > 0:
+                item = self.Tablica_Wyszukiwan.verticalHeaderItem(i)
+                item.setText(_translate("TechWindow", columns[i]))
+            else:
+                item = self.Tablica_Wyszukiwan.verticalHeaderItem(i)
+                item.setText(_translate("TechWindow", ""))
+
+        print('po teście "Modyfikuj dane"')
