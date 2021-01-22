@@ -3,7 +3,9 @@ from LoginScreenCopy import Ui_LoginScreen
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+import cgitb
 
+cgitb.enable(format='text')
 
 if __name__ == "__main__":
     name = 'testdb'

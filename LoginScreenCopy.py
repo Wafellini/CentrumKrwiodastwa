@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from ToolsWindowCopy import Ui_TechWindow
 from SearchScreenCopy import Ui_SearchScreen
+import cgitb
+
+cgitb.enable(format='text')
 
 class Ui_LoginScreen(object):
     def __init__(self, base):

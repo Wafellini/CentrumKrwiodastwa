@@ -13,6 +13,9 @@ from PyQt5.QtWidgets import QDialog, QApplication
 import mysql.connector
 from Baza import Baza
 import traceback
+import cgitb
+
+cgitb.enable(format='text')
 
 class Ui_TechWindow(object):
     def __init__(self, base):
@@ -58,8 +61,10 @@ class Ui_TechWindow(object):
         self.Tablica_Danych = QtWidgets.QTableWidget(self.centralwidget)
         self.Tablica_Danych.setGeometry(QtCore.QRect(10, 190, 291, 192))
         self.Tablica_Danych.setObjectName("Tablica_Danych")
-        self.Tablica_Danych.setColumnCount(1)
-
+        self.Tablica_Danych.setColumnCount(2)
+        for i in range(2):
+            item = QtWidgets.QTableWidgetItem()
+            self.Tablica_Danych.setHorizontalHeaderItem(i, item)
 
         # Ustawienie odpowiednio dużej ilości wierszy w tabeli do wpisywania danych
         self.Tablica_Danych.setRowCount(20)
@@ -131,13 +136,17 @@ class Ui_TechWindow(object):
         print('przed testem "Modyfikuj dane"')
 
         if item1 == "Modyfikuj dane":
-            if self.Tablica_Danych.columnCount() < 2:
-                self.Tablica_Danych.insertColumn(1)
-                item = self.Tablica_Danych.horizontalHeaderItem(1)
-                # item.setText("Nowe Dane")
-                # item.setText(_translate("TechWindow", "Nowe Dane"))
+            item = self.Tablica_Danych.horizontalHeaderItem(0)
+            item.setText(_translate("TechWindow", "Stare Dane"))
+            item = self.Tablica_Danych.horizontalHeaderItem(1)
+            item.setText(_translate("TechWindow", "Nowe Dane"))
+
         else:
-            self.Tablica_Danych.removeColumn(1)
+            item = self.Tablica_Danych.horizontalHeaderItem(0)
+            item.setText(_translate("TechWindow", "Dane"))
+            item = self.Tablica_Danych.horizontalHeaderItem(1)
+            item.setText(_translate("TechWindow", ""))
+
 
         print('po teście "Modyfikuj dane"')
 
@@ -145,7 +154,7 @@ class Ui_TechWindow(object):
     def UpdateXXX(self):
         item1 = self.wybor_Relacji.currentItem()
         item1 = item1.text()
-        print(item1)
+        # print(item1)
         self.updateDane(item1)
 
     def updateDane(self,table):
@@ -162,8 +171,9 @@ class Ui_TechWindow(object):
             else:
                 item = self.Tablica_Danych.verticalHeaderItem(i)
                 item.setText(_translate("TechWindow", ""))
-        item = self.Tablica_Danych.horizontalHeaderItem(0)
-        item.setText(_translate("TechWindow", "Dane"))
+        item1 = self.Tablica_Danych.horizontalHeaderItem(0)
+        # item.setText(_translate("TechWindow", "Dane"))
+        item1.setText("Nowe Dane")
 
     #wybór dostępnych opcji
     def getChoice(self):

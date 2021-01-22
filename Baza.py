@@ -1,5 +1,7 @@
 import mysql.connector
+import cgitb
 
+cgitb.enable(format='text')
 
 class Baza:
 
