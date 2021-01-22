@@ -171,6 +171,8 @@ class Ui_TechWindow(object):
             else:
                 item = self.Tablica_Danych.verticalHeaderItem(i)
                 item.setText(_translate("TechWindow", ""))
+        item = self.Tablica_Danych.horizontalHeaderItem(0)
+        item.setText(_translate("TechWindow", "Dane"))
 
     #wybór dostępnych opcji
     def getChoice(self):
@@ -182,7 +184,7 @@ class Ui_TechWindow(object):
 
 
 
-            # items - wartości wpiasne prze użytkownika
+            # items - wartości wpiasne przez użytkownika
             items = []
             items2 = []
             it = len(Baza.getColumnNamesFromTable(self.dtbase, item2))

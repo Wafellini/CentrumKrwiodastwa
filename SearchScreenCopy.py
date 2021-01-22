@@ -17,14 +17,14 @@ class Ui_SearchScreen(object):
 
     def setupUi(self, SearchScreen):
         SearchScreen.setObjectName("SearchScreen")
-        SearchScreen.resize(549, 418)
+        SearchScreen.resize(900, 500)
         self.centralwidget = QtWidgets.QWidget(SearchScreen)
         self.centralwidget.setObjectName("centralwidget")
         self.label_Relacja = QtWidgets.QLabel(self.centralwidget)
         self.label_Relacja.setGeometry(QtCore.QRect(30, 20, 47, 13))
         self.label_Relacja.setObjectName("label_Relacja")
         self.wybor_Relacji = QtWidgets.QListWidget(self.centralwidget)
-        self.wybor_Relacji.setGeometry(QtCore.QRect(20, 40, 151, 71))
+        self.wybor_Relacji.setGeometry(QtCore.QRect(20, 40, 200, 120))
         self.wybor_Relacji.setObjectName("wybor_Relacji")
         item = QtWidgets.QListWidgetItem()
         self.wybor_Relacji.addItem(item)
@@ -33,7 +33,7 @@ class Ui_SearchScreen(object):
         item = QtWidgets.QListWidgetItem()
         self.wybor_Relacji.addItem(item)
         self.Tablica_Wyszukiwan = QtWidgets.QTableWidget(self.centralwidget)
-        self.Tablica_Wyszukiwan.setGeometry(QtCore.QRect(10, 150, 171, 221))
+        self.Tablica_Wyszukiwan.setGeometry(QtCore.QRect(10, 200, 280, 221))
         self.Tablica_Wyszukiwan.setObjectName("Tablica_Wyszukiwan")
         self.Tablica_Wyszukiwan.setColumnCount(1)
         # self.Tablica_Wyszukiwan.setRowCount(3)
@@ -53,38 +53,45 @@ class Ui_SearchScreen(object):
         # item = QtWidgets.QTableWidgetItem()
         self.Tablica_Wyszukiwan.setHorizontalHeaderItem(0, item)
         self.label_Wyszukiwanie = QtWidgets.QLabel(self.centralwidget)
-        self.label_Wyszukiwanie.setGeometry(QtCore.QRect(30, 130, 91, 16))
+        self.label_Wyszukiwanie.setGeometry(QtCore.QRect(30, 170, 91, 16))
         self.label_Wyszukiwanie.setObjectName("label_Wyszukiwanie")
         self.Tablica_Wynikow = QtWidgets.QTableWidget(self.centralwidget)
-        self.Tablica_Wynikow.setGeometry(QtCore.QRect(200, 40, 331, 331))
+        self.Tablica_Wynikow.setGeometry(QtCore.QRect(300, 40, 600, 331))
         self.Tablica_Wynikow.setObjectName("Tablica_Wynikow")
-        self.Tablica_Wynikow.setColumnCount(3)
-        self.Tablica_Wynikow.setRowCount(7)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setVerticalHeaderItem(5, item)
+
+
+        self.Tablica_Wynikow.setColumnCount(10)
+        for i in range(10):
+            item = QtWidgets.QTableWidgetItem()
+            self.Tablica_Wynikow.setHorizontalHeaderItem(i, item)
+
+
+        self.Tablica_Wynikow.setRowCount(30)
+        for i in range(30):
+            item = QtWidgets.QTableWidgetItem()
+            self.Tablica_Wynikow.setVerticalHeaderItem(i, item)
+
+        self.Guzik_Zatwierdzajacy = QtWidgets.QPushButton(self.centralwidget)
+        self.Guzik_Zatwierdzajacy.setGeometry(QtCore.QRect(700, 400, 75, 23))
+        self.Guzik_Zatwierdzajacy.setObjectName("Guzik_Zatwierdzajacy")
+
+
+
+
+
         item = QtWidgets.QTableWidgetItem()
         font = QtGui.QFont()
         font.setStrikeOut(False)
         item.setFont(font)
-        self.Tablica_Wynikow.setVerticalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Tablica_Wynikow.setHorizontalHeaderItem(2, item)
+        # self.Tablica_Wynikow.setVerticalHeaderItem(6, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wynikow.setHorizontalHeaderItem(0, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wynikow.setHorizontalHeaderItem(1, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.Tablica_Wynikow.setHorizontalHeaderItem(2, item)
         self.label_Wynik = QtWidgets.QLabel(self.centralwidget)
-        self.label_Wynik.setGeometry(QtCore.QRect(210, 20, 151, 16))
+        self.label_Wynik.setGeometry(QtCore.QRect(320, 20, 151, 16))
         self.label_Wynik.setObjectName("label_Wynik")
         SearchScreen.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(SearchScreen)
@@ -95,6 +102,9 @@ class Ui_SearchScreen(object):
         self.statusbar.setObjectName("statusbar")
         SearchScreen.setStatusBar(self.statusbar)
 
+
+
+
         self.retranslateUi(SearchScreen)
         QtCore.QMetaObject.connectSlotsByName(SearchScreen)
 
@@ -104,12 +114,7 @@ class Ui_SearchScreen(object):
         self.label_Relacja.setText(_translate("SearchScreen", "Relacja:"))
         __sortingEnabled = self.wybor_Relacji.isSortingEnabled()
         self.wybor_Relacji.setSortingEnabled(False)
-        # item = self.wybor_Relacji.item(0)
-        # item.setText(_translate("SearchScreen", "Placowki"))
-        # item = self.wybor_Relacji.item(1)
-        # item.setText(_translate("SearchScreen", "Laboratoria"))
-        # item = self.wybor_Relacji.item(2)
-        # item.setText(_translate("SearchScreen", "Bilansy_Krwi"))
+
 
         amount = len(Baza.getTableNamesFromDb('testdb'))
         for i in range(amount):
@@ -123,8 +128,11 @@ class Ui_SearchScreen(object):
         for i in tables:
             print(i)
             item = self.wybor_Relacji.item(it)
-            item.setText(_translate("TechWindow", tables[it]))
+            item.setText(_translate("SearchScreen", tables[it]))
             it += 1
+
+        self.Guzik_Zatwierdzajacy.setText(_translate("TechWindow", "Zatwierdź"))
+
 
         self.wybor_Relacji.setSortingEnabled(__sortingEnabled)
         item = self.Tablica_Wyszukiwan.verticalHeaderItem(0)
@@ -134,7 +142,7 @@ class Ui_SearchScreen(object):
         item = self.Tablica_Wyszukiwan.verticalHeaderItem(2)
         item.setText(_translate("SearchScreen", "id_plac"))
         item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
-        item.setText(_translate("SearchScreen", "Podaj wzór danych"))
+        item.setText(_translate("SearchScreen", "Wzór danych"))
         self.label_Wyszukiwanie.setText(_translate("SearchScreen", "Wyszukiwanie:"))
         item = self.Tablica_Wynikow.verticalHeaderItem(0)
         item.setText(_translate("SearchScreen", "wynik1"))
@@ -159,6 +167,48 @@ class Ui_SearchScreen(object):
         self.label_Wynik.setText(_translate("SearchScreen", "Wynik wyszukiwania:"))
 
         self.wybor_Relacji.clicked.connect(self.UpdateRelacje)
+        self.Guzik_Zatwierdzajacy.clicked.connect(self.GetResults)
+
+
+    def GetResults(self):
+        item2 = self.wybor_Relacji.currentItem()
+        item2 = item2.text()
+        items = []
+
+        it = len(Baza.getColumnNamesFromTable(self.dtbase, item2))
+        for i in range(it):
+            if (self.Tablica_Wyszukiwan.item(i, 0) is not None):
+                if self.Tablica_Wyszukiwan.item(i, 0).text() == '':
+                    items.append(None)
+                else:
+                    items.append(self.Tablica_Wyszukiwan.item(i, 0).text())
+            else:
+                items.append(None)
+        print('items: ', items)
+        selects = Baza.select(self.dtbase, item2, items)
+
+        if selects is not None:
+            self.UpdateWyniki(item2, selects)
+
+
+        print(selects)
+
+    def UpdateWyniki(self,table, selects):
+        columns = Baza.getColumnNamesFromTable(self.dtbase,table)
+        numC = len(columns)
+
+        _translate = QtCore.QCoreApplication.translate
+
+        # Wypełnianie tabeli... implementacja
+        for c in range(len(columns)):
+            for r in range(len(selects)):
+                item1 = QtWidgets.QTableWidgetItem()
+                self.Tablica_Wynikow.setItem(r,c,item1)
+                item = self.Tablica_Wynikow.item(r,c)
+                # item.setText(selects[r][c])
+                item.setText(_translate("TechWindow", str(selects[r][c])))
+
+
 
     def UpdateRelacje(self):
         item1 = self.wybor_Relacji.currentItem()
@@ -169,17 +219,17 @@ class Ui_SearchScreen(object):
 
         _translate = QtCore.QCoreApplication.translate
 
-        print('przed testem "Modyfikuj dane"')
 
 
         for i in range(20):
             # item = self.Tablica_Wyszukiwan.horizontalHeaderItem(i)
-            # item.setText(_translate("TechWindow", "Podaj wzór danych"))
+            # item.setText(_translate("TechWindow", "Wzór danych"))
             if (numC - i) > 0:
                 item = self.Tablica_Wyszukiwan.verticalHeaderItem(i)
-                item.setText(_translate("TechWindow", columns[i]))
+                item.setText(_translate("SearchScreen", columns[i]))
             else:
                 item = self.Tablica_Wyszukiwan.verticalHeaderItem(i)
-                item.setText(_translate("TechWindow", ""))
-
+                item.setText(_translate("SearchScreen", ""))
+        item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
+        item.setText(_translate("SearchScreen", "Wzór danych"))
         print('po teście "Modyfikuj dane"')

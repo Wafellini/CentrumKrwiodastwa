@@ -6,6 +6,33 @@ cgitb.enable(format='text')
 class Baza:
 
     @staticmethod
+    def select(database, table, args):
+        names = Baza.getColumnNamesFromTable(database, table)
+        my_cursor = database.cursor()
+        final_format = ""
+        j = 0
+        for i in range(len(args)):
+            if args[j] is None:
+                args.pop(j)
+                names.pop(j)
+            else:
+                final_format += str(names[j]) + ' = "' + str(args[j]) + '" and '
+                j += 1
+
+        tamp = 'SELECT * FROM {} WHERE {}'.format(table, final_format[:-5])
+        print(tamp)
+        my_cursor.execute(tamp)
+
+        result = my_cursor.fetchall()
+        # database.commit()
+        print('wynik selecta: ',result)
+
+        my_cursor.close()
+        if result == []:
+            return None
+        else:
+            return result
+    @staticmethod
     def insert(database, table, args):
         names = Baza.getColumnNamesFromTable(database, table)
         my_cursor = database.cursor()
@@ -25,6 +52,7 @@ class Baza:
         my_cursor.execute(tamp)
         database.commit()
 
+        my_cursor.close()
     @staticmethod
     def update(database, table, args, args2):
         names = Baza.getColumnNamesFromTable(database, table)
@@ -54,12 +82,11 @@ class Baza:
         my_cursor.execute(tamp)
         database.commit()
 
+        my_cursor.close()
     @staticmethod
     def delete(database, table, args):
         names = Baza.getColumnNamesFromTable(database, table)
         my_cursor = database.cursor()
-        names_format = ""
-        args_format = ""
         final_format = ""
         j = 0
         for i in range(len(args)):
@@ -67,8 +94,6 @@ class Baza:
                 args.pop(j)
                 names.pop(j)
             else:
-                names_format += str(names[j]) + ", "
-                args_format += '"' + str(args[j]) + '"' + ', '
                 final_format += str(names[j]) + ' = "' + str(args[j]) +  '" and '
                 j += 1
 
@@ -76,6 +101,8 @@ class Baza:
         print(tamp)
         my_cursor.execute(tamp)
         database.commit()
+
+        my_cursor.close()
 
     @staticmethod
     def insertPlacowki(database, id_plac, adres):
@@ -85,6 +112,8 @@ class Baza:
         my_cursor.execute(tamp, values)
         database.commit()
 
+        my_cursor.close()
+
     @staticmethod
     def getColumnNamesFromTable(database,table):
         my_cursor = database.cursor()
@@ -93,7 +122,11 @@ class Baza:
         for i in my_cursor:
             print(i[0])
             columns.append(i[0])
+
+        my_cursor.close()
         return columns
+
+
 
 
     @staticmethod
@@ -104,11 +137,15 @@ class Baza:
         my_cursor.execute(tamp, values)
         database.commit()
 
+        my_cursor.close()
+
     @staticmethod
     def addTable(database):
         my_cursor = database.cursor()
         my_cursor.execute(
             'CREATE TABLE pracownicy (nazwisko VARCHAR(255), id_zesp INTEGER(10), id_prac INTEGER PRIMARY KEY)')
+
+        my_cursor.close()
 
     @staticmethod
     def createDatabse(name):
@@ -116,6 +153,8 @@ class Baza:
 
         my_cursor = mydb.cursor()
         my_cursor.execute('CREATE DATABASE {}'.format(name))
+
+        my_cursor.close()
 
     @staticmethod
     def connect(host, user, password, database):
@@ -134,5 +173,7 @@ class Baza:
         my_cursor.execute('show tables')
 
         xd = [i[0] for i in my_cursor]
+        my_cursor.close()
+
         return(xd)
 
