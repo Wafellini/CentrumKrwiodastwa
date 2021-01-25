@@ -1,9 +1,92 @@
 import mysql.connector
 import cgitb
+from mysql.connector import Error
 
 cgitb.enable(format='text')
 
 class Baza:
+    @staticmethod
+    def selectuserWszystkieDonacje(database, pesel):
+        try:
+            print('step 0')
+            print('step 03242134')
+            my_cursor = database.cursor()
+            print('step 0.1')
+            # tamp = 'call wszytkie_donacje({})'.format(pesel)
+            inpt = str(pesel)
+            print('step 0.2')
+            #my_cursor.callproc('call wszytkie_donacje', (pesel,))
+            my_cursor.execute('call wszytkie_donacje({})'.format(pesel))
+            print('step 0.3')
+
+            print('step 1   ', my_cursor)
+            # print out the result
+            # for result in my_cursor.stored_results():
+            #     print('fetchall',result.fetchall())
+
+            print('fetchall', my_cursor.fetchall())
+            print('step 1.1   ',)
+            # print(tamp)
+            #print(my_cursor)
+            # my_cursor.execute(tamp)
+            print(my_cursor)
+
+            #result = my_cursor.fetchall()
+            #print('wszytkie_donacje:  ', result)
+
+            my_cursor.close()
+            # database.commit()
+        except mysql.connector.Error as error:
+            print("Failed to execute stored procedure: {}".format(error))
+
+
+        return None
+        if result == []:
+            return None
+        else:
+            return result
+
+
+    @staticmethod
+    def selectuserInfo(database,pesel):
+        try:
+            my_cursor = database.cursor()
+
+            tamp = 'call user_info({})'.format(pesel)
+
+            print(tamp)
+
+            my_cursor.execute(tamp)
+            print(my_cursor)
+
+            result = my_cursor.fetchall()
+            print('USER INFO:  ', result)
+
+
+
+
+            my_cursor.close()
+        except mysql.connector.Error as error:
+            print("Failed to execute stored procedure: {}".format(error))
+        if result == []:
+            return None
+        else:
+            return result
+
+    @staticmethod
+    def selectPesels(database):
+        my_cursor = database.cursor()
+
+        tamp = 'SELECT distinct pesel FROM darczyncy'
+        print(tamp)
+        my_cursor.execute(tamp)
+
+        result = my_cursor.fetchall()
+        # database.commit()
+        print('wynik selecta peseli: ', result)
+
+        my_cursor.close()
+        return result
 
     @staticmethod
     def select(database, table, args):

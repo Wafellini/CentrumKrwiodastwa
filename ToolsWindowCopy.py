@@ -23,7 +23,7 @@ class Ui_TechWindow(object):
 
     def setupUi(self, TechWindow):
         TechWindow.setObjectName("TechWindow")
-        TechWindow.resize(490, 432)
+        TechWindow.resize(490, 500)
         self.centralwidget = QtWidgets.QWidget(TechWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.wybor_Akcji = QtWidgets.QListWidget(self.centralwidget)
@@ -51,6 +51,10 @@ class Ui_TechWindow(object):
         self.wybor_Relacji.setGeometry(QtCore.QRect(160, 70, 121, 120))
         self.wybor_Relacji.setObjectName("wybor_Relacji")
 
+        # okienko do wyświetlania powiadomień
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(30, 400, 300, 50))
+        self.textBrowser.setObjectName("textBrowser")
 
         # Ustawianie ilości elementów listy relacji do wyboru
         amount = len(Baza.getTableNamesFromDb('testdb'))

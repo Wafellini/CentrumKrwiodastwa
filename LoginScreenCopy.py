@@ -12,6 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from ToolsWindowCopy import Ui_TechWindow
 from SearchScreenCopy import Ui_SearchScreen
+from UserSearchScreen import Ui_UserSearchScreen
+from Baza import Baza
 import cgitb
 
 cgitb.enable(format='text')
@@ -23,6 +25,7 @@ class Ui_LoginScreen(object):
     def setupUi(self, LoginScreen):
         LoginScreen.setObjectName("LoginScreen")
         LoginScreen.resize(403, 165)
+
         self.centralwidget = QtWidgets.QWidget(LoginScreen)
         self.centralwidget.setObjectName("centralwidget")
         self.label_Identyfikator = QtWidgets.QLabel(self.centralwidget)
@@ -49,6 +52,12 @@ class Ui_LoginScreen(object):
         self.statusbar.setObjectName("statusbar")
         LoginScreen.setStatusBar(self.statusbar)
 
+        # okienko do wyświetlania powiadomień
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(30, 110, 300, 26))
+        self.textBrowser.setObjectName("textBrowser")
+
+
         self.retranslateUi(LoginScreen)
         QtCore.QMetaObject.connectSlotsByName(LoginScreen)
 
@@ -60,10 +69,17 @@ class Ui_LoginScreen(object):
         self.label_Haslo.setText(_translate("LoginScreen", "Hasło:"))
         self.Guzik_Logujacy.setText(_translate("LoginScreen", "Login"))
 
+        self.textBrowser.setText('Zaloguj się swoim peselem')
+
         self.Guzik_Logujacy.clicked.connect(self.getChoice)
 
     def getChoice(self):
         try:
+            pesele = Baza.selectPesels(self.dtbase)
+            pesele2 = []
+            for i in pesele:
+                pesele2.append(i[0])
+            print('pesele2',pesele2)
             passwd = self.Text_Haslo.toPlainText()
             idd = self.Text_Identyfikator.toPlainText()
             print(passwd, idd)
@@ -82,8 +98,18 @@ class Ui_LoginScreen(object):
 
                 self.TechWindow1.show()
                 self.TechWindow3.show()
+
+            elif passwd == idd and int(idd) in pesele2:
+                self.TechWindow1 = QtWidgets.QMainWindow()
+
+                self.ui1 = Ui_UserSearchScreen(self.dtbase, int(idd))
+
+                self.ui1.setupUi(self.TechWindow1)
+
+                self.TechWindow1.show()
             else:
                 print('zly login, sprobuj admin admin')
+                self.textBrowser.setText('Zły login')
         except:
-            print('cuśik poszedu nie tak')
+            print('cuśik poszedu nie tak przy logowaniu')
         # return item1, item2, item3
