@@ -56,11 +56,7 @@ class Ui_TechWindow(object):
         self.textBrowser.setGeometry(QtCore.QRect(30, 400, 300, 50))
         self.textBrowser.setObjectName("textBrowser")
 
-        # Ustawianie ilości elementów listy relacji do wyboru
-        amount = len(Baza.getTableNamesFromDb('testdb'))
-        for i in range(amount):
-            item = QtWidgets.QListWidgetItem()
-            self.wybor_Relacji.addItem(item)
+
 
         self.Tablica_Danych = QtWidgets.QTableWidget(self.centralwidget)
         self.Tablica_Danych.setGeometry(QtCore.QRect(10, 190, 291, 192))
@@ -110,6 +106,11 @@ class Ui_TechWindow(object):
         __sortingEnabled = self.wybor_Relacji.isSortingEnabled()
         self.wybor_Relacji.setSortingEnabled(False)
 
+        # Ustawianie ilości elementów listy relacji do wyboru
+        amount = len(Baza.getTableNamesFromDb('testdb'))
+        for i in range(amount):
+            item = QtWidgets.QListWidgetItem()
+            self.wybor_Relacji.addItem(item)
 
         # Ustawienie listy relacji do wyboru
         tables = Baza.getTableNamesFromDb('testdb')
@@ -182,8 +183,12 @@ class Ui_TechWindow(object):
     def getChoice(self):
         try:
             item1 = self.wybor_Akcji.currentItem()
-            item1 = item1.text()
             item2 = self.wybor_Relacji.currentItem()
+
+            if item1 is None or item2 is None:
+                self.textBrowser.setText('Wybierz relecję i akcję jaką '
+                                         'chcesz przeprowadzić przed potwierdzeniem przyciskiem')
+            item1 = item1.text()
             item2 = item2.text()
 
 
@@ -212,18 +217,36 @@ class Ui_TechWindow(object):
             print('items  :',items)
             print('items2  :', items2)
 
-
+            err = None
             if item1 == "Dodaj dane":
-                Baza.insert(self.dtbase, item2, items)
+                err = Baza.insert(self.dtbase, item2, items)
             print('after insert checkpoint')
 
             if item1 == "Usuń dane":
-                Baza.delete(self.dtbase, item2, items)
+                err = Baza.delete(self.dtbase, item2, items)
             print('after delete checkpoint')
 
             if item1 == "Modyfikuj dane":
-                Baza.update(self.dtbase, item2, items, items2)
+                err = Baza.update(self.dtbase, item2, items, items2)
             print('after update checkpoint')
+
+            print('error id:  ', err)
+            if err is None:
+                pass
+            elif err == 1364:
+                self.textBrowser.setText('Nie pozostawaij żadnych pól pustych!')
+            elif err == 1064:
+                self.textBrowser.setText('Nie pozostawaij żadnych pól pustych!')
+            elif err == 1292:
+                self.textBrowser.setText('Podawaj datę w formacie YYYY-MM-DD')
+            elif err == 1366:
+                self.textBrowser.setText('Wpisano inna wartość w pole, w którym '
+                                         'powinna byc wpisana liczba')
+            elif err == 1406:
+                self.textBrowser.setText('Przeroczono maksymalną liczbę znaków przy'
+                                         ' podawaniu danych')
+            else:
+                self.textBrowser.setText('Wystąpił błąd!')
 
 
         except Exception:

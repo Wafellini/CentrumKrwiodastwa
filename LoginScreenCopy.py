@@ -109,7 +109,7 @@ class Ui_LoginScreen(object):
                 self.TechWindow1.show()
             else:
                 print('zly login, sprobuj admin admin')
-                self.textBrowser.setText('Zły login')
+                self.textBrowser.setText('Zły login albo hasło')
         except:
             print('cuśik poszedu nie tak przy logowaniu')
         # return item1, item2, item3

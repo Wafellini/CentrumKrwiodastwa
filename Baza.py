@@ -38,7 +38,7 @@ class Baza:
             # database.commit()
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
-
+            print('errno: ',error.errno)
 
         return None
         if result == []:
@@ -68,6 +68,10 @@ class Baza:
             my_cursor.close()
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
+            print("Error code:", error.errno)  # error number
+            print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
+            print("Error message:", error.msg)
+        return None
         if result == []:
             return None
         else:
@@ -90,102 +94,134 @@ class Baza:
 
     @staticmethod
     def select(database, table, args):
-        names = Baza.getColumnNamesFromTable(database, table)
-        my_cursor = database.cursor()
-        final_format = ""
-        j = 0
-        for i in range(len(args)):
-            if args[j] is None:
-                args.pop(j)
-                names.pop(j)
+        try:
+            names = Baza.getColumnNamesFromTable(database, table)
+            my_cursor = database.cursor()
+            final_format = ""
+            j = 0
+            for i in range(len(args)):
+                if args[j] is None:
+                    args.pop(j)
+                    names.pop(j)
+                else:
+                    final_format += str(names[j]) + ' = "' + str(args[j]) + '" and '
+                    j += 1
+
+            tamp = 'SELECT * FROM {} WHERE {}'.format(table, final_format[:-5])
+            print(tamp)
+            my_cursor.execute(tamp)
+
+            result = my_cursor.fetchall()
+            # database.commit()
+            print('wynik selecta: ',result)
+
+            my_cursor.close()
+            if result == []:
+                return None
             else:
-                final_format += str(names[j]) + ' = "' + str(args[j]) + '" and '
-                j += 1
-
-        tamp = 'SELECT * FROM {} WHERE {}'.format(table, final_format[:-5])
-        print(tamp)
-        my_cursor.execute(tamp)
-
-        result = my_cursor.fetchall()
-        # database.commit()
-        print('wynik selecta: ',result)
-
-        my_cursor.close()
-        if result == []:
-            return None
-        else:
-            return result
+                return result
+        except mysql.connector.Error as error:
+            print('While inserting')
+            print("Failed to execute stored procedure: {}".format(error))
+            print("Error code:", error.errno)  # error number
+            print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
+            print("Error message:", error.msg)
+            return (error.errno)
     @staticmethod
     def insert(database, table, args):
-        names = Baza.getColumnNamesFromTable(database, table)
-        my_cursor = database.cursor()
-        names_format = ""
-        args_format = ""
-        j = 0
-        for i in range(len(args)):
-            if args[j] is None:
-                args.pop(j)
-                names.pop(j)
-            else:
-                names_format += str(names[j]) + ", "
-                args_format += '"' + str(args[j]) + '"' + ', '
-                j += 1
-        tamp = 'INSERT INTO {} ({}) VALUES ({})'.format(table, names_format[:-2], args_format[:-2])
-        print(tamp)
-        my_cursor.execute(tamp)
-        database.commit()
+        try:
+            names = Baza.getColumnNamesFromTable(database, table)
+            my_cursor = database.cursor()
+            names_format = ""
+            args_format = ""
+            j = 0
+            for i in range(len(args)):
+                if args[j] is None:
+                    args.pop(j)
+                    names.pop(j)
+                else:
+                    names_format += str(names[j]) + ", "
+                    args_format += '"' + str(args[j]) + '"' + ', '
+                    j += 1
+            tamp = 'INSERT INTO {} ({}) VALUES ({})'.format(table, names_format[:-2], args_format[:-2])
+            print(tamp)
+            my_cursor.execute(tamp)
+            database.commit()
 
-        my_cursor.close()
+            my_cursor.close()
+        except mysql.connector.Error as error:
+            print('While inserting')
+            print("Failed to execute stored procedure: {}".format(error))
+            print("Error code:", error.errno)  # error number
+            print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
+            print("Error message:", error.msg)
+            return (error.errno)
     @staticmethod
     def update(database, table, args, args2):
-        names = Baza.getColumnNamesFromTable(database, table)
-        names2 = names.copy()
-        my_cursor = database.cursor()
-        set_values = ""
-        where_values = ""
-        j = 0
-        for i in range(len(args)):
-            if args[j] is None:
-                args.pop(j)
-                names.pop(j)
-            else:
-                where_values += str(names[j]) + ' = "' + str(args[j]) + '" and '
-                j += 1
-        print(where_values)
+        try:
+            names = Baza.getColumnNamesFromTable(database, table)
+            names2 = names.copy()
+            my_cursor = database.cursor()
+            set_values = ""
+            where_values = ""
+            j = 0
+            for i in range(len(args)):
+                if args[j] is None:
+                    args.pop(j)
+                    names.pop(j)
+                else:
+                    where_values += str(names[j]) + ' = "' + str(args[j]) + '" and '
+                    j += 1
+            print(where_values)
 
-        for it in range(len(args2)):
-            #musza być wypełnione wszystkie
-            if args2[it] is None:
-                set_values += str(names2[it]) + ' = "", '
-            else:
-                set_values += str(names2[it]) + ' = "' + str(args2[it]) + '", '
-        print(set_values)
-        tamp = 'UPDATE {} SET {} WHERE {}'.format(table, set_values[:-2], where_values[:-4])
-        print(tamp)
-        my_cursor.execute(tamp)
-        database.commit()
+            for it in range(len(args2)):
+                #musza być wypełnione wszystkie
+                if args2[it] is None:
+                    set_values += str(names2[it]) + ' = "", '
+                else:
+                    set_values += str(names2[it]) + ' = "' + str(args2[it]) + '", '
+            print(set_values)
+            tamp = 'UPDATE {} SET {} WHERE {}'.format(table, set_values[:-2], where_values[:-4])
+            print(tamp)
+            my_cursor.execute(tamp)
+            database.commit()
 
-        my_cursor.close()
+            my_cursor.close()
+        except mysql.connector.Error as error:
+            print('While updating')
+            print("Failed to execute stored procedure: {}".format(error))
+            print("Error code:", error.errno)  # error number
+            print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
+            print("Error message:", error.msg)
+            return (error.errno)
     @staticmethod
     def delete(database, table, args):
-        names = Baza.getColumnNamesFromTable(database, table)
-        my_cursor = database.cursor()
-        final_format = ""
-        j = 0
-        for i in range(len(args)):
-            if args[j] is None:
-                args.pop(j)
-                names.pop(j)
-            else:
-                final_format += str(names[j]) + ' = "' + str(args[j]) +  '" and '
-                j += 1
+        try:
+            names = Baza.getColumnNamesFromTable(database, table)
+            my_cursor = database.cursor()
+            final_format = ""
+            j = 0
+            for i in range(len(args)):
+                if args[j] is None:
+                    args.pop(j)
+                    names.pop(j)
+                else:
+                    final_format += str(names[j]) + ' = "' + str(args[j]) +  '" and '
+                    j += 1
 
-        tamp = 'DELETE FROM {} WHERE {}'.format(table, final_format[:-5])
-        print(tamp)
-        my_cursor.execute(tamp)
-        database.commit()
+            tamp = 'DELETE FROM {} WHERE {}'.format(table, final_format[:-5])
+            print(tamp)
+            my_cursor.execute(tamp)
+            database.commit()
 
-        my_cursor.close()
+            my_cursor.close()
+        except mysql.connector.Error as error:
+            print('While deleting')
+            print("Failed to execute stored procedure: {}".format(error))
+            print("Error code:", error.errno)  # error number
+            print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
+            print("Error message:", error.msg)
+            return(error.errno)
 
     @staticmethod
     def insertPlacowki(database, id_plac, adres):

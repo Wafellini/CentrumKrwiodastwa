@@ -135,54 +135,79 @@ class Ui_SearchScreen(object):
         item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
         item.setText(_translate("SearchScreen", "Wzór danych"))
         self.label_Wyszukiwanie.setText(_translate("SearchScreen", "Wyszukiwanie:"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(0)
-        # item.setText(_translate("SearchScreen", "wynik1"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(1)
-        # item.setText(_translate("SearchScreen", "wynik2"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(2)
-        # item.setText(_translate("SearchScreen", "wynik3"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(3)
-        # item.setText(_translate("SearchScreen", "wynik4"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(4)
-        # item.setText(_translate("SearchScreen", "wynik5"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(5)
-        # item.setText(_translate("SearchScreen", "wynik6"))
-        # item = self.Tablica_Wynikow.verticalHeaderItem(6)
-        # item.setText(_translate("SearchScreen", "wynik7"))
-        # item = self.Tablica_Wynikow.horizontalHeaderItem(0)
-        # item.setText(_translate("SearchScreen", "typ_krwi"))
-        # item = self.Tablica_Wynikow.horizontalHeaderItem(1)
-        # item.setText(_translate("SearchScreen", "ilosc"))
-        # item = self.Tablica_Wynikow.horizontalHeaderItem(2)
-        # item.setText(_translate("SearchScreen", "id_plac"))
+
         self.label_Wynik.setText(_translate("SearchScreen", "Wynik wyszukiwania:"))
 
-        self.wybor_Relacji.clicked.connect(self.UpdateRelacje)
-        self.Guzik_Zatwierdzajacy.clicked.connect(self.GetResults)
 
+        self.Guzik_Zatwierdzajacy.clicked.connect(self.GetResults)
+        self.wybor_Relacji.clicked.connect(self.UpdateRelacje)
 
     def GetResults(self):
+        print('test wypisywania info w Oknie wydzukiwania')
         item2 = self.wybor_Relacji.currentItem()
-        item2 = item2.text()
-        items = []
+        print('item2======',item2, item2.text())
+        if item2 is None:
+            self.textBrowser.setText('Wybierz relecję i akcję jaką '
+                                     'chcesz przeprowadzić przed potwierdzeniem przyciskiem')
+        else:
+            item2 = item2.text()
+            items = []
 
-        it = len(Baza.getColumnNamesFromTable(self.dtbase, item2))
-        for i in range(it):
-            if (self.Tablica_Wyszukiwan.item(i, 0) is not None):
-                if self.Tablica_Wyszukiwan.item(i, 0).text() == '':
-                    items.append(None)
+            it = len(Baza.getColumnNamesFromTable(self.dtbase, item2))
+            for i in range(it):
+                if (self.Tablica_Wyszukiwan.item(i, 0) is not None):
+                    if self.Tablica_Wyszukiwan.item(i, 0).text() == '':
+                        items.append(None)
+                    else:
+                        items.append(self.Tablica_Wyszukiwan.item(i, 0).text())
                 else:
-                    items.append(self.Tablica_Wyszukiwan.item(i, 0).text())
-            else:
-                items.append(None)
-        print('items: ', items)
-        selects = Baza.select(self.dtbase, item2, items)
-
-        if selects is not None:
-            self.UpdateWyniki(item2, selects)
+                    items.append(None)
+            print('items: ', items)
+            err = Baza.select(self.dtbase, item2, items)
 
 
-        print(selects)
+
+
+            if type(err) is int:
+                if err == 1364 or err == 1064:
+                    self.textBrowser.setText('Nie pozostawaij żadnych pól pustych!')
+                    _translate = QtCore.QCoreApplication.translate
+
+                    for c in range(10):
+                        for r in range(30):
+                            item1 = QtWidgets.QTableWidgetItem()
+                            self.Tablica_Wynikow.setItem(r, c, item1)
+                            item = self.Tablica_Wynikow.item(r, c)
+                            item.setText(_translate("TechWindow", ''))
+                elif err == 1292:
+                    self.textBrowser.setText('Podawaj datę w formacie YYYY-MM-DD')
+                elif err == 1366:
+                    self.textBrowser.setText('Wpisano inna wartość w pole, w którym '
+                                             'powinna byc wpisana liczba')
+                elif err == 1406:
+                    self.textBrowser.setText('Przeroczono maksymalną liczbę znaków przy'
+                                             ' podawaniu danych')
+
+                elif err == 1525:
+                    self.textBrowser.setText('Podawaj datę w formacie YYYY-MM-DD')
+
+                else:
+                    self.textBrowser.setText('Wystąpił błąd!')
+            elif err is not None:
+                self.UpdateWyniki(item2, err)
+            elif err is None:
+                self.textBrowser.setText('Nie znaleziono żadnych pasujących danych')
+                _translate = QtCore.QCoreApplication.translate
+
+                for c in range(10):
+                    for r in range(30):
+                        item1 = QtWidgets.QTableWidgetItem()
+                        self.Tablica_Wynikow.setItem(r, c, item1)
+                        item = self.Tablica_Wynikow.item(r, c)
+                        item.setText(_translate("TechWindow", ''))
+
+
+            print(err)
 
     def UpdateWyniki(self,table, selects):
         columns = Baza.getColumnNamesFromTable(self.dtbase,table)
