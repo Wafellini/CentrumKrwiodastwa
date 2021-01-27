@@ -181,6 +181,7 @@ class Ui_TechWindow(object):
 
     #wybór dostępnych opcji
     def getChoice(self):
+        self.textBrowser.setText('')
         try:
             item1 = self.wybor_Akcji.currentItem()
             item2 = self.wybor_Relacji.currentItem()
@@ -220,6 +221,8 @@ class Ui_TechWindow(object):
             err = None
             if item1 == "Dodaj dane":
                 err = Baza.insert(self.dtbase, item2, items)
+                if item2 == "donacje":
+                    self.dtbase = Baza.connect("localhost", "root", "debilkox", 'testdb')
             print('after insert checkpoint')
 
             if item1 == "Usuń dane":
@@ -245,6 +248,10 @@ class Ui_TechWindow(object):
             elif err == 1406:
                 self.textBrowser.setText('Przeroczono maksymalną liczbę znaków przy'
                                          ' podawaniu danych')
+            elif err == 1062:
+                self.textBrowser.setText('Nie można dodać danych, gdyż jedna z nich '
+                                         'już znajduje się w bazie')
+
             else:
                 self.textBrowser.setText('Wystąpił błąd!')
 

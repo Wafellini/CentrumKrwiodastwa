@@ -30,7 +30,6 @@ class Ui_SearchScreen(object):
         self.Tablica_Wyszukiwan.setGeometry(QtCore.QRect(10, 200, 280, 221))
         self.Tablica_Wyszukiwan.setObjectName("Tablica_Wyszukiwan")
         self.Tablica_Wyszukiwan.setColumnCount(1)
-        # self.Tablica_Wyszukiwan.setRowCount(3)
 
         self.Tablica_Wyszukiwan.setRowCount(20)
         for i in range(20):
@@ -74,13 +73,6 @@ class Ui_SearchScreen(object):
         font = QtGui.QFont()
         font.setStrikeOut(False)
         item.setFont(font)
-        # self.Tablica_Wynikow.setVerticalHeaderItem(6, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # self.Tablica_Wynikow.setHorizontalHeaderItem(0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # self.Tablica_Wynikow.setHorizontalHeaderItem(1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # self.Tablica_Wynikow.setHorizontalHeaderItem(2, item)
         self.label_Wynik = QtWidgets.QLabel(self.centralwidget)
         self.label_Wynik.setGeometry(QtCore.QRect(320, 20, 151, 16))
         self.label_Wynik.setObjectName("label_Wynik")
@@ -126,12 +118,6 @@ class Ui_SearchScreen(object):
 
 
         self.wybor_Relacji.setSortingEnabled(__sortingEnabled)
-        item = self.Tablica_Wyszukiwan.verticalHeaderItem(0)
-        item.setText(_translate("SearchScreen", "typ_krwi"))
-        item = self.Tablica_Wyszukiwan.verticalHeaderItem(1)
-        item.setText(_translate("SearchScreen", "ilosc"))
-        item = self.Tablica_Wyszukiwan.verticalHeaderItem(2)
-        item.setText(_translate("SearchScreen", "id_plac"))
         item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
         item.setText(_translate("SearchScreen", "Wzór danych"))
         self.label_Wyszukiwanie.setText(_translate("SearchScreen", "Wyszukiwanie:"))
@@ -143,6 +129,10 @@ class Ui_SearchScreen(object):
         self.wybor_Relacji.clicked.connect(self.UpdateRelacje)
 
     def GetResults(self):
+
+        self.clearWyniki()
+        self.textBrowser.setText('')
+
         print('test wypisywania info w Oknie wydzukiwania')
         item2 = self.wybor_Relacji.currentItem()
         print('item2======',item2, item2.text())
@@ -171,14 +161,9 @@ class Ui_SearchScreen(object):
             if type(err) is int:
                 if err == 1364 or err == 1064:
                     self.textBrowser.setText('Nie pozostawaij żadnych pól pustych!')
-                    _translate = QtCore.QCoreApplication.translate
 
-                    for c in range(10):
-                        for r in range(30):
-                            item1 = QtWidgets.QTableWidgetItem()
-                            self.Tablica_Wynikow.setItem(r, c, item1)
-                            item = self.Tablica_Wynikow.item(r, c)
-                            item.setText(_translate("TechWindow", ''))
+
+
                 elif err == 1292:
                     self.textBrowser.setText('Podawaj datę w formacie YYYY-MM-DD')
                 elif err == 1366:
@@ -243,8 +228,6 @@ class Ui_SearchScreen(object):
 
 
         for i in range(20):
-            # item = self.Tablica_Wyszukiwan.horizontalHeaderItem(i)
-            # item.setText(_translate("TechWindow", "Wzór danych"))
             if (numC - i) > 0:
                 item = self.Tablica_Wyszukiwan.verticalHeaderItem(i)
                 item.setText(_translate("SearchScreen", columns[i]))
@@ -254,3 +237,12 @@ class Ui_SearchScreen(object):
         item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
         item.setText(_translate("SearchScreen", "Wzór danych"))
         print('po teście "Modyfikuj dane"')
+
+    def clearWyniki(self):
+        _translate = QtCore.QCoreApplication.translate
+        for c in range(10):
+            for r in range(30):
+                item1 = QtWidgets.QTableWidgetItem()
+                self.Tablica_Wynikow.setItem(r, c, item1)
+                item = self.Tablica_Wynikow.item(r, c)
+                item.setText(_translate("TechWindow", ''))

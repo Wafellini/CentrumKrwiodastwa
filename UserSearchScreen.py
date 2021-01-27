@@ -119,6 +119,9 @@ class Ui_UserSearchScreen(object):
         self.wybor_Relacji.clicked.connect(self.UpdateWyniki)
 
     def UpdateWyniki(self):
+        self.clearWyniki()
+        self.textBrowser.setText('')
+
         item1 = self.wybor_Relacji.currentItem()
         item1 = item1.text()
 
@@ -158,4 +161,14 @@ class Ui_UserSearchScreen(object):
                 traceback.print_exc()
                 print('coś nie tak w klikaniu w dane osobowe')
 
+        self.dtbase = Baza.connect("localhost", "root", "debilkox", 'testdb')
         print('what is')
+
+    def clearWyniki(self):
+        _translate = QtCore.QCoreApplication.translate
+        for c in range(10):
+            for r in range(30):
+                item1 = QtWidgets.QTableWidgetItem()
+                self.Tablica_Wynikow.setItem(r, c, item1)
+                item = self.Tablica_Wynikow.item(r, c)
+                item.setText(_translate("TechWindow", ''))

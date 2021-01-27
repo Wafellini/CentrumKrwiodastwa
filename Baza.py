@@ -1,8 +1,5 @@
 import mysql.connector
-import cgitb
-from mysql.connector import Error
 
-cgitb.enable(format='text')
 
 class Baza:
     @staticmethod
@@ -24,27 +21,24 @@ class Baza:
             # for result in my_cursor.stored_results():
             #     print('fetchall',result.fetchall())
 
-            print('fetchall', my_cursor.fetchall())
+            #print('fetchall', my_cursor.fetchall())
             print('step 1.1   ',)
             # print(tamp)
             #print(my_cursor)
             # my_cursor.execute(tamp)
             print(my_cursor)
 
-            #result = my_cursor.fetchall()
+            result = my_cursor.fetchall()
             #print('wszytkie_donacje:  ', result)
 
             my_cursor.close()
             # database.commit()
+            return result
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
             print('errno: ',error.errno)
 
         return None
-        if result == []:
-            return None
-        else:
-            return result
 
 
     @staticmethod
@@ -66,16 +60,13 @@ class Baza:
 
 
             my_cursor.close()
+            return result
         except mysql.connector.Error as error:
             print("Failed to execute stored procedure: {}".format(error))
             print("Error code:", error.errno)  # error number
             print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
             print("Error message:", error.msg)
         return None
-        if result == []:
-            return None
-        else:
-            return result
 
     @staticmethod
     def selectPesels(database):
@@ -86,7 +77,6 @@ class Baza:
         my_cursor.execute(tamp)
 
         result = my_cursor.fetchall()
-        # database.commit()
         print('wynik selecta peseli: ', result)
 
         my_cursor.close()
@@ -112,7 +102,6 @@ class Baza:
             my_cursor.execute(tamp)
 
             result = my_cursor.fetchall()
-            # database.commit()
             print('wynik selecta: ',result)
 
             my_cursor.close()
@@ -127,6 +116,7 @@ class Baza:
             print("SQLSTATE value:", error.sqlstate)  # SQLSTATE value
             print("Error message:", error.msg)
             return (error.errno)
+
     @staticmethod
     def insert(database, table, args):
         try:
@@ -149,6 +139,16 @@ class Baza:
             database.commit()
 
             my_cursor.close()
+
+            print('SPRAWDZENIE UPDATU darczyńców:  ',table , args[4])
+            if table == "donacje":
+                print('update_ostatnia_donacja test')
+                currsor = database.cursor()
+                currsor.execute('call update_ostatnia_donacja({})'.format(int(args[4])))
+                database.commit()
+                currsor.close()
+
+
         except mysql.connector.Error as error:
             print('While inserting')
             print("Failed to execute stored procedure: {}".format(error))
@@ -224,16 +224,6 @@ class Baza:
             return(error.errno)
 
     @staticmethod
-    def insertPlacowki(database, id_plac, adres):
-        my_cursor = database.cursor()
-        tamp = 'INSERT INTO placowki (id_plac, adres) VALUES (%s, %s)'
-        values = (id_plac, adres)
-        my_cursor.execute(tamp, values)
-        database.commit()
-
-        my_cursor.close()
-
-    @staticmethod
     def getColumnNamesFromTable(database,table):
         my_cursor = database.cursor()
         my_cursor.execute('show columns from {}'.format(table))
@@ -245,18 +235,6 @@ class Baza:
         my_cursor.close()
         return columns
 
-
-
-
-    @staticmethod
-    def deletePlacowki(database, id_plac, adres):
-        my_cursor = database.cursor()
-        tamp = 'DELETE FROM placowki WHERE id_plac = %s and adres = %s'
-        values = (id_plac, adres)
-        my_cursor.execute(tamp, values)
-        database.commit()
-
-        my_cursor.close()
 
     @staticmethod
     def addTable(database):
