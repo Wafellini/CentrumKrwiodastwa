@@ -251,7 +251,12 @@ class Ui_TechWindow(object):
             elif err == 1062:
                 self.textBrowser.setText('Nie można dodać danych, gdyż jedna z nich '
                                          'już znajduje się w bazie')
-
+            elif err == 1451:
+                self.textBrowser.setText('Nie można usunąć danych, gdyż inne zależne od nich '
+                                         'już znajdują się w bazie')
+            elif err == 1452:
+                self.textBrowser.setText('Nie można dodać/edytować danych, kiedy jedna z podanych '
+                                         'odwołuje się do nieistniejącej danej w innej tabeli')
             else:
                 self.textBrowser.setText('Wystąpił błąd!')
 

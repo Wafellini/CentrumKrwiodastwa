@@ -133,7 +133,7 @@ class Ui_SearchScreen(object):
         self.clearWyniki()
         self.textBrowser.setText('')
 
-        print('test wypisywania info w Oknie wydzukiwania')
+        print('test wypisywania info w Oknie wyszukiwania')
         item2 = self.wybor_Relacji.currentItem()
         print('item2======',item2, item2.text())
         if item2 is None:
@@ -242,6 +242,8 @@ class Ui_SearchScreen(object):
         _translate = QtCore.QCoreApplication.translate
         for c in range(10):
             for r in range(30):
+                item = self.Tablica_Wynikow.verticalHeaderItem(r)
+                item.setText(_translate("TechWindow", ''.format(r + 1)))
                 item1 = QtWidgets.QTableWidgetItem()
                 self.Tablica_Wynikow.setItem(r, c, item1)
                 item = self.Tablica_Wynikow.item(r, c)

@@ -89,16 +89,23 @@ class Baza:
             my_cursor = database.cursor()
             final_format = ""
             j = 0
-            for i in range(len(args)):
-                if args[j] is None:
-                    args.pop(j)
-                    names.pop(j)
-                else:
-                    final_format += str(names[j]) + ' = "' + str(args[j]) + '" and '
-                    j += 1
+            args = [i for i in args if i is not None]
+            print('argumentssss    :',args)
+            if args == []:
+                tamp = 'SELECT * FROM {}'.format(table)
+            else:
+                for i in range(len(args)):
+                    if args[j] is None:
+                        args.pop(j)
+                        names.pop(j)
+                    else:
+                        final_format += str(names[j]) + ' = "' + str(args[j]) + '" and '
+                        j += 1
 
-            tamp = 'SELECT * FROM {} WHERE {}'.format(table, final_format[:-5])
+                tamp = 'SELECT * FROM {} WHERE {}'.format(table, final_format[:-5])
+
             print(tamp)
+
             my_cursor.execute(tamp)
 
             result = my_cursor.fetchall()
@@ -140,7 +147,6 @@ class Baza:
 
             my_cursor.close()
 
-            print('SPRAWDZENIE UPDATU darczyńców:  ',table , args[4])
             if table == "donacje":
                 print('update_ostatnia_donacja test')
                 currsor = database.cursor()

@@ -127,6 +127,10 @@ class Ui_UserSearchScreen(object):
 
         _translate = QtCore.QCoreApplication.translate
 
+        wszystkiDonacje = ['wynik testu', 'oddane mililitry',
+                       'data donacji', 'liczba czekolad']
+
+        daneOsobowe = ['pesel', 'imie', 'nazwisko', 'typ_krwi', 'ostatnia donacja', 'liczba donacji']
 
         if item1 == 'Twoje dane osobowe':
             try:
@@ -135,7 +139,7 @@ class Ui_UserSearchScreen(object):
 
                     for c in range(len(xd[0])):
                         item = self.Tablica_Wynikow.horizontalHeaderItem(c)
-                        item.setText(_translate("TechWindow", 'bob'))
+                        item.setText(_translate("TechWindow", daneOsobowe[c]))
                         item1 = QtWidgets.QTableWidgetItem()
                         self.Tablica_Wynikow.setItem(0, c, item1)
                         item = self.Tablica_Wynikow.item(0, c)
@@ -148,15 +152,19 @@ class Ui_UserSearchScreen(object):
             try:
                 xd = Baza.selectuserWszystkieDonacje(self.dtbase, self.pesel)
                 print(xd)
-                if xd is not None:
+                if xd is not None and xd != []:
 
                     for c in range(len(xd[0])):
                         item = self.Tablica_Wynikow.horizontalHeaderItem(c)
-                        item.setText(_translate("TechWindow", 'bob'))
+                        item.setText(_translate("TechWindow", wszystkiDonacje[c]))
                         item1 = QtWidgets.QTableWidgetItem()
                         self.Tablica_Wynikow.setItem(0, c, item1)
                         item = self.Tablica_Wynikow.item(0, c)
                         item.setText(_translate("TechWindow", str(xd[0][c])))
+                    item = self.Tablica_Wynikow.horizontalHeaderItem(4)
+                    item.setText(_translate("TechWindow", ''))
+                    item = self.Tablica_Wynikow.horizontalHeaderItem(5)
+                    item.setText(_translate("TechWindow", ''))
             except Exception:
                 traceback.print_exc()
                 print('coś nie tak w klikaniu w dane osobowe')
