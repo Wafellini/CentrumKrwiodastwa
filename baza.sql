@@ -1,3 +1,16 @@
+DROP TABLE IF EXISTS badania_krwi;
+DROP TABLE IF EXISTS bilansy_krwi;
+DROP TABLE IF EXISTS darczyncy;
+DROP TABLE IF EXISTS donacje;
+DROP TABLE IF EXISTS kwalifikacje;
+DROP TABLE IF EXISTS laboratoria;
+DROP TABLE IF EXISTS magazyny_kompensacji;
+DROP TABLE IF EXISTS placowki;
+DROP TABLE IF EXISTS pracownicy_lab;
+DROP TABLE IF EXISTS pracownicy_plac;
+DROP TABLE IF EXISTS wydania_kompensacji;
+    -- nowa baza ===================================
+    
 create table Placowki(
 	id_plac int(6) primary key AUTO_INCREMENT,
 	adres varchar(50) not null);
@@ -6,7 +19,7 @@ create table Laboratoria(
 	id_lab int(6) primary key AUTO_INCREMENT,
 	adres varchar(50) not null);
 
---tu
+-- tu
 create table Bilansy_Krwi(
 	typ_krwi varchar(2) not null,
 	ilosc int(10) not null,
@@ -14,7 +27,7 @@ create table Bilansy_Krwi(
 	foreign key (id_plac) references Placowki(id_plac),
 	primary key(id_plac));
 
---tu
+-- tu
 create table Magazyny_kompensacji(
 	nazwa varchar(50),
 	ilosc int(10) not null,
@@ -22,13 +35,13 @@ create table Magazyny_kompensacji(
 	foreign key (id_plac) references Placowki(id_plac),
 	primary key(nazwa, id_plac));
 	
---tu
+-- tu
 create table Badania_krwi(
 	datta date not null,
 	wynik varchar(50) not null,
 	id_bad int(6) AUTO_INCREMENT,
 	id_lab int(6) not null references Laboratoria(id_lab),
-	foreign key (id_bad) references Badania_krwi(id_bad),
+	foreign key (id_lab) references Laboratoria(id_lab),
 	primary key(id_bad, id_lab));
 	
     
@@ -39,15 +52,15 @@ create table Darczyncy(
 	typ_krwi varchar(2) not null,
 	ostatnia_donacja date null);
 	
---tu
+-- tu
 create table Kwalifikacje(
 	id_kwal int(6) primary key AUTO_INCREMENT,
 	datta date not null,
 	wynik varchar(50) not null,
-	pesel int(11) not null references Darczyncy(pesel)),
-	foreign key (pesel) references Darczyncy(pesel);
+	pesel int(11) not null references Darczyncy(pesel),
+	foreign key (pesel) references Darczyncy(pesel));
 
---tu
+-- tu
 create table Donacje(
 	datta date,
 	ilosc int(6) not null,
@@ -60,7 +73,7 @@ create table Donacje(
 	primary key(datta, pesel));
 
 
---tu
+-- tu
 create table Wydania_kompensacji(
 	ilosc int(6) not null,
 	datta date,
@@ -70,7 +83,7 @@ create table Wydania_kompensacji(
 	foreign key (nazwa) references Magazyny_kompensacji(nazwa),
 	primary key(datta, pesel, nazwa));
 
---tu
+-- tu
 create table Pracownicy_plac(
 	imie varchar(50) not null,
 	id_prac int(6) AUTO_INCREMENT,
@@ -80,7 +93,7 @@ create table Pracownicy_plac(
 	foreign key (id_plac) references Placowki(id_plac),
 	primary key(id_prac, id_plac));
 
---tu
+-- tu
 create table Pracownicy_lab(
 	imie varchar(50) not null,
 	id_prac int(6) AUTO_INCREMENT,
@@ -88,4 +101,4 @@ create table Pracownicy_lab(
 	stanowisko varchar(50) not null,
 	id_lab int(6) not null references Laboratoria(id_lab),
 	foreign key (id_lab) references Laboratoria(id_lab),
-	primary key(id_prac, id_lab));
+	primary key(id_prac, id_lab)); 
