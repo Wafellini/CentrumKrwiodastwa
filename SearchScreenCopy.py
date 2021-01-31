@@ -211,9 +211,7 @@ class Ui_SearchScreen(object):
                 item1 = QtWidgets.QTableWidgetItem()
                 self.Tablica_Wynikow.setItem(r,c,item1)
                 item = self.Tablica_Wynikow.item(r,c)
-                # item.setText(selects[r][c])
                 item.setText(_translate("TechWindow", str(selects[r][c])))
-
 
 
     def UpdateRelacje(self):
@@ -225,8 +223,6 @@ class Ui_SearchScreen(object):
 
         _translate = QtCore.QCoreApplication.translate
 
-
-
         for i in range(20):
             if (numC - i) > 0:
                 item = self.Tablica_Wyszukiwan.verticalHeaderItem(i)
@@ -237,6 +233,7 @@ class Ui_SearchScreen(object):
         item = self.Tablica_Wyszukiwan.horizontalHeaderItem(0)
         item.setText(_translate("SearchScreen", "Wzór danych"))
         print('po teście "Modyfikuj dane"')
+
 
     def clearWyniki(self):
         _translate = QtCore.QCoreApplication.translate

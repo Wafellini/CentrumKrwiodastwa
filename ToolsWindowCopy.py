@@ -9,8 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication
-import mysql.connector
+
 from Baza import Baza
 import traceback
 import cgitb
@@ -74,7 +73,6 @@ class Ui_TechWindow(object):
 
 
         self.Tablica_Danych.setHorizontalHeaderItem(0, item)
-        # self.Tablica_Danych.setHorizontalHeaderItem(1, item)
         TechWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(TechWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 490, 21))

@@ -9,7 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import mysql.connector
 from ToolsWindowCopy import Ui_TechWindow
 from SearchScreenCopy import Ui_SearchScreen
 from UserSearchScreen import Ui_UserSearchScreen
@@ -79,13 +78,11 @@ class Ui_LoginScreen(object):
             pesele2 = []
             for i in pesele:
                 pesele2.append(i[0])
-            print('pesele2',pesele2)
+
             passwd = self.Text_Haslo.toPlainText()
             idd = self.Text_Identyfikator.toPlainText()
-            print(passwd, idd)
+
             if passwd == "admin" and idd == "admin":
-
-
                 self.TechWindow1 = QtWidgets.QMainWindow()
                 self.TechWindow3 = QtWidgets.QMainWindow()
 
@@ -108,7 +105,6 @@ class Ui_LoginScreen(object):
 
                 self.TechWindow1.show()
             else:
-                print('zly login, sprobuj admin admin')
                 self.textBrowser.setText('Zły login albo hasło')
         except:
             print('cuśik poszedu nie tak przy logowaniu')

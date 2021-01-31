@@ -136,7 +136,6 @@ class Ui_UserSearchScreen(object):
             try:
                 xd = Baza.selectuserInfo(self.dtbase, self.pesel)
                 if xd is not None:
-
                     for c in range(len(xd[0])):
                         item = self.Tablica_Wynikow.horizontalHeaderItem(c)
                         item.setText(_translate("TechWindow", daneOsobowe[c]))
