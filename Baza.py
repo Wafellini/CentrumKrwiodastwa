@@ -117,6 +117,10 @@ class Baza:
                     names_format += str(names[j]) + ", "
                     args_format += '"' + str(args[j]) + '"' + ', '
                     j += 1
+            if(table == "darczyncy"):
+                a = args_format.find('"')
+                b = args_format[a+1:].find('"')
+                args_format = args_format[a+1:b+1]+args_format[b+2:]
             tamp = 'INSERT INTO {} ({}) VALUES ({})'.format(table, names_format[:-2], args_format[:-2])
             print(tamp)
             my_cursor.execute(tamp)
@@ -256,4 +260,5 @@ class Baza:
         my_cursor.close()
 
         return(xd)
+
 

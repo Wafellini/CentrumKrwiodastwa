@@ -255,6 +255,10 @@ class Ui_TechWindow(object):
             elif err == 1452:
                 self.textBrowser.setText('Nie można dodać/edytować danych, kiedy jedna z podanych '
                                          'odwołuje się do nieistniejącej danej w innej tabeli')
+            elif err == 1054:
+                self.textBrowser.setText('Pesel musi być liczbą.')
+            elif err == 3819:
+                self.textBrowser.setText('Pesel musi składać się z 11 cyfr.')
             else:
                 self.textBrowser.setText('Wystąpił błąd!')
 

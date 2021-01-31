@@ -77,7 +77,7 @@ class Ui_LoginScreen(object):
             pesele = Baza.selectPesels(self.dtbase)
             pesele2 = []
             for i in pesele:
-                pesele2.append(i[0])
+                pesele2.append(int(i[0]))
 
             passwd = self.Text_Haslo.toPlainText()
             idd = self.Text_Identyfikator.toPlainText()

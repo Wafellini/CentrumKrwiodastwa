@@ -46,18 +46,21 @@ create table Badania_krwi(
 	
     
 create table Darczyncy(
-	pesel int(11) primary key,
+	pesel varchar(11) primary key,
 	imie varchar(50) not null,
 	nazwisko varchar(50) not null,
 	typ_krwi varchar(2) not null,
 	ostatnia_donacja date null);
+	
+alter table Darczyncy
+add constraint cPeselLen check (length(pesel)=11);
 	
 -- tu
 create table Kwalifikacje(
 	id_kwal int(6) primary key AUTO_INCREMENT,
 	datta date not null,
 	wynik varchar(50) not null,
-	pesel int(11) not null references Darczyncy(pesel),
+	pesel varchar(11) not null references Darczyncy(pesel),
 	foreign key (pesel) references Darczyncy(pesel));
 
 -- tu
@@ -66,7 +69,7 @@ create table Donacje(
 	ilosc int(6) not null,
 	id_bad int(6) not null references Badania_krwi(id_bad),
 	id_kwal int(6) not null references Kwalifikacje(id_kwal),
-	pesel int(11) not null references Darczyncy(pesel),
+	pesel varchar(11) not null references Darczyncy(pesel),
 	foreign key (id_bad) references Badania_krwi(id_bad),
 	foreign key (id_kwal) references Kwalifikacje(id_kwal),
 	foreign key (pesel) references Darczyncy(pesel),
@@ -77,7 +80,7 @@ create table Donacje(
 create table Wydania_kompensacji(
 	ilosc int(6) not null,
 	datta date,
-	pesel int(11) not null references Darczyncy(pesel),
+	pesel varchar(11) not null references Darczyncy(pesel),
 	nazwa varchar(50) not null references Magazyny_kompensacji(nazwa),
 	foreign key (pesel) references Darczyncy(pesel),
 	foreign key (nazwa) references Magazyny_kompensacji(nazwa),

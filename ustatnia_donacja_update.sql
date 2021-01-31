@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` FUNCTION `ostatnia_donacja_update`(peselin int) RETURNS date
+CREATE DEFINER=`root`@`localhost` FUNCTION `ostatnia_donacja_update`(peselin varchar(11)) RETURNS date
     READS SQL DATA
 BEGIN
 

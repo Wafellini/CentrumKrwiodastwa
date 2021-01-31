@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `wszytkie_donacje`(in peselin int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `wszytkie_donacje`(in peselin varchar(11))
 BEGIN
 	select k.wynik as "wynik testu", don.ilosc as "oddane mililitry" , don.datta as "data donacji",  w.ilosc as "liczba czekolad"
     from darczyncy d, wydania_kompensacji w, donacje don, kwalifikacje k
